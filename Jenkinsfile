@@ -2,13 +2,20 @@ pipeline {
     agent { label 'slave2' }
 
     stages {
-        stage('Build') {
+
+        stage('Clone') {
+            steps {
+                git 'https://github.com/dhotekomal71/hello-cicd-app.git'
+            }
+        }
+
+        stage('Build Docker Image') {
             steps {
                 sh 'docker build -t hello-app .'
             }
         }
 
-        stage('Run') {
+        stage('Run Container') {
             steps {
                 sh '''
                 docker stop hello-container || true
